@@ -1,0 +1,4 @@
+[submodule "nixos-rocm"]
+	path = nixos-rocm
+	url = https://github.com/nixos-rocm/nixos-rocm.git
+	branch = master
