@@ -74,6 +74,10 @@
   };
   environment.etc."pulse/gsx1000.conf".source = ''/etc/nixos/files/gsx1000.conf'';
 
+  services.udev.extraRules = ''
+    ATTRS{manufacturer}=="Sennheiser", ATTRS{product}=="GSX 1000 Main Audio", ENV{PULSE_PROFILE_SET}="/etc/pulse/gsx1000.conf"
+  '';
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
   services.printing.drivers = [ 

@@ -7,7 +7,6 @@
 {
   imports = [
     ./desktop.nix
-    ./users.nix
     ./rocm.nix
   ];
 

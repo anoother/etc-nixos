@@ -9,8 +9,7 @@ let machine = builtins.readFile( ./hostname ); in
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./desktop.nix
-      #./amdgpu.nix
+      ./users.nix
       (builtins.toPath ''/etc/nixos/${machine}.nix'' )
     ];
 
@@ -51,27 +50,10 @@ let machine = builtins.readFile( ./hostname ); in
 
   networking.firewall.enable = false;
 
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-  services.xserver.enable = true;
-  services.xserver.layout = "us";
-
   services.openssh.enable = true;
   services.openssh.permitRootLogin = "no";
   programs.mosh.enable = true;
 
-  # Select internationalisation properties.
-  # i18n = {
-  #   consoleFont = "Lat2-Terminus16";
-  #   consoleKeyMap = "us";
-  #   defaultLocale = "en_US.UTF-8";
-  # };
- 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
