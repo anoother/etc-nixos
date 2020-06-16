@@ -5,8 +5,11 @@
   time.timeZone = "Europe/London";
 
   environment.systemPackages = with pkgs; [
-    compton
+    picom
     pnmixer
+    numlockx
+    feh
+    scrot
     polybar
     dmenu
     konsole
@@ -16,13 +19,17 @@
     numix-gtk-theme
     numix-icon-theme
     numix-icon-theme-circle
+    numix-icon-theme-square
     numix-cursor-theme
+    numix-solarized-gtk-theme
+    numix-sx-gtk-theme
     pa_applet
     libreoffice
     gimp
     inkscape
     blender
     dolphin
+    powertop
   ];
 
   services.xserver = {

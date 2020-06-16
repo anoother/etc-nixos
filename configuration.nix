@@ -39,6 +39,7 @@ let machine = builtins.readFile( ./hostname ); in
     stow
     ncdu
     tree
+    unzip
   ];
 
   nixpkgs.config.allowUnfree = true;
