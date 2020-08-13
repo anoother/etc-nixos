@@ -1,16 +1,56 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./desktop.nix
+  ];
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/London";
 
-  services.xserver.monitorSection = ''
+  services.xserver = {
+    enable = true;
+    enableCtrlAltBackspace = true;
+    windowManager.bspwm.enable = true;
+    displayManager.sddm.enable = false;
+    #displayManager.defaultSession = "none+bspwm";
+    desktopManager = {
+      xfce = {
+        enable = true;
+        noDesktop = false;
+        enableXfwm = true;
+      };
+      gnome3 = {
+        enable = true;
+      };
+    };
+    monitorSection = ''#Option "DPMS" "false"
       Modeline "2560x1440_75" 299.00  2560 2608 2640 2720  1440 1443 1448 1470 +hsync -vsync
       Option "PreferredMode" "2560x1440_75"
     '';
+    libinput = {
+        enable = true;
+        accelProfile = "flat";
+    };
+    inputClassSections = [
+      ''
+	Identifier "Touchpad"
+	MatchIsTouchpad "on"
+	Option "AccelProfile" "adaptive"
+	Option "ClickMethod" "clickfinger"
+	Option "NaturalScrolling" "true"
+      ''
+      ''
+	Identifier "Sennheiser GSX 1000 Hotkeys"
+	MatchProduct "Sennheiser GSX 1000 Main Audio"
+	Option "Ignore" "on"
+      ''
+    ];
+  };
+  #environment.etc."../var/lib/lightdm/.config/monitors.xml".source = ''/home/ahmad/.config/monitors.xml'';
 
   # Intel graphics stuff
   nixpkgs.config.packageOverrides = pkgs: {
