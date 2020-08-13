@@ -30,6 +30,11 @@
     blender
     dolphin
     powertop
+    ghostwriter
+    marktext
+    notes-up
+    notable
+    typora
   ];
 
   services.xserver = {
