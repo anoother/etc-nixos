@@ -40,6 +40,7 @@ let machine = builtins.readFile( ./hostname ); in
     ncdu
     tree
     unzip
+    pciutils
   ];
 
   nixpkgs.config.allowUnfree = true;
