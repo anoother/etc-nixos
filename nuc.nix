@@ -3,6 +3,7 @@
 {
   imports = [
     ./desktop.nix
+    ./igvt-g.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -10,6 +11,12 @@
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/London";
+
+  virtualisation.kvmgt.vgpus = {
+    "i915-GVTg_V5_1" = {
+      uuid = "9139a3de-dd84-11ea-95a1-bf4a694b0948";
+    };
+  };
 
   services.xserver = {
     enable = true;
