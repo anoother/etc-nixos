@@ -10,6 +10,7 @@
     numlockx
     feh
     scrot
+    steam
     polybar
     dmenu
     konsole
@@ -89,6 +90,10 @@
   services.udev.extraRules = ''
     ATTRS{manufacturer}=="Sennheiser", ATTRS{product}=="GSX 1000 Main Audio", ENV{PULSE_PROFILE_SET}="/etc/pulse/gsx1000.conf"
   '';
+
+  # For Steam:
+  hardware.pulseaudio.support32Bit = true;
+  hardware.opengl.driSupport32Bit = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
