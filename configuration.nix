@@ -41,6 +41,7 @@ let machine = builtins.readFile( ./hostname ); in
     tree
     unzip
     pciutils
+    lsof
   ];
 
   nixpkgs.config.allowUnfree = true;
