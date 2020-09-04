@@ -57,6 +57,8 @@ let machine = builtins.readFile( ./hostname ); in
   services.openssh.permitRootLogin = "no";
   programs.mosh.enable = true;
 
+  i18n.defaultLocale = "en_GB.UTF-8";
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

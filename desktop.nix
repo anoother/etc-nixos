@@ -13,6 +13,7 @@
     steam
     polybar
     dmenu
+    google-drive-ocamlfuse
     konsole
     firefox
     hicolor-icon-theme

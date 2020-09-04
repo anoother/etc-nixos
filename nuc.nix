@@ -90,6 +90,17 @@
 
   services.wakeonlan.interfaces = [ { interface = "eno1"; method = "magicpacket"; } ];
 
+  #power.ups = {
+  #  enable = true;
+  #  mode = "standalone";
+  #  ups = {
+  #    powercool-1000va = {
+  #      driver = "usbhid-ups";
+  #      port = "auto";
+  #    };
+  #  };
+  #};
+
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change machine only after NixOS release notes say you
