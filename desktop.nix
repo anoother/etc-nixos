@@ -117,4 +117,21 @@
   # Screen locking on sleep etc. (uses i3lock by default)
   programs.xss-lock.enable = false;
 
+  systemd.user.services = {
+    sxhkd = {
+      description = "Simple X Hotkey Daemon";
+      documentation = [ "man:sxhkd(1)" ];
+      wantedBy = [ "graphical.target" ];
+      path = [
+        pkgs.utillinux
+        pkgs.dmenu
+        pkgs.konsole
+      ];
+      serviceConfig = {
+        ExecStart = "${pkgs.sxhkd}/bin/sxhkd";
+        ExecReload = "${pkgs.utillinux}/bin/kill -SIGUSR1 $MAINPID";
+      };
+    };
+  };
+
 }
