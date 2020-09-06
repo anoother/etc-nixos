@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ./zigbee.nix
+  imports = map (x: ../modules + x) [
+    /zigbee.nix
   ];
 
   boot.loader.grub.enable = true;

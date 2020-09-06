@@ -2,20 +2,57 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, options, ... }:
 
-let machine = builtins.readFile( ./hostname ); in
+let
+  machine = builtins.readFile( ./hostname );
+in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./users.nix
-      (builtins.toPath ''/etc/nixos/${machine}.nix'' )
+      ./notsecret/users.nix
+      ( /etc/nixos/machines + "/${machine}.nix" )
     ];
 
   networking.hostName = machine;
 
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
+
+  nix.nixPath =
+    options.nix.nixPath.default ++
+    [ "nixpkgs-overlays=/etc/nixos/overlays-compat/" ]
+  ;
+
+  nixpkgs.overlays = let
+    unstableTarball = fetchTarball "channel:nixos-unstable";
+    localFork = /home/ahmad/projects/nixpkgs;
+    localGit = fetchGit { url = localFork; rev = "master"; };
+  in [
+    (self: super: {
+      unstable = import unstableTarball {
+        config = config.nixpkgs.config;
+        overlays = [];
+      };
+    })
+    (self: super: {
+      local = import localGit {
+        config = config.nixpkgs.config;
+        overlays = [];
+      };
+    })
+    (self: super: {
+      hack = import localFork {
+        config = config.nixpkgs.config;
+        overlays = [];
+      };
+    })
+  ];
+
   environment.systemPackages = with pkgs; [
+    #unstable.home-assistant
     file
     git
     wget
@@ -39,8 +76,6 @@ let machine = builtins.readFile( ./hostname ); in
     pciutils
     lsof
   ];
-
-  nixpkgs.config.allowUnfree = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

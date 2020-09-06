@@ -1,10 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ./efi.nix
-    ./desktop.nix
-    ./igvt-g.nix
+  imports = map (x: ../modules + x) [
+    /efi.nix
+    /desktop.nix
+    /igvt-g.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -86,8 +86,6 @@
   environment.systemPackages = with pkgs; [
     thunderbolt
   ];
-
-  networking.networkmanager.insertNameservers = [ "8.8.8.8" "8.8.4.4" ];
 
   services.wakeonlan.interfaces = [ { interface = "eno1"; method = "magicpacket"; } ];
 
