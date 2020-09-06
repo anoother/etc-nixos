@@ -125,6 +125,7 @@
       wantedBy = [ "graphical.target" ];
       path = [
         pkgs.utillinux
+        pkgs.bspwm
         pkgs.dmenu
         pkgs.konsole
       ];
