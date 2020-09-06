@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./efi.nix
     ./desktop.nix
     ./igvt-g.nix
   ];

@@ -6,6 +6,7 @@
 
 {
   imports = [
+    ./efi.nix
     ./desktop.nix
     ./rocm.nix
   ];

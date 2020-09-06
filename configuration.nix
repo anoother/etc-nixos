@@ -15,10 +15,6 @@ let machine = builtins.readFile( ./hostname ); in
 
   networking.hostName = machine;
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   environment.systemPackages = with pkgs; [
     file
     git
