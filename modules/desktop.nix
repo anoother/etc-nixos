@@ -29,12 +29,12 @@
     libreoffice
     gimp
     inkscape
-    blender
+    unstable.blender
     dolphin
     powertop
     ghostwriter
     marktext
-    notes-up
+    unstable.notes-up
     notable
     typora
   ];
