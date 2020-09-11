@@ -86,6 +86,7 @@ in
 
   services.openssh.enable = true;
   services.openssh.permitRootLogin = "no";
+  programs.ssh.startAgent = true;
   programs.mosh.enable = true;
 
   i18n.defaultLocale = "en_GB.UTF-8";
