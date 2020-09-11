@@ -3,17 +3,22 @@
 {
   imports = map (x: ../modules + x) [
     /zigbee.nix
+  ] ++
+  [
+    ../notsecret/wifi.nix
   ];
 
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
-  #boot.loader.grub.gfxmodeBios = "1920x1080";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [ "nomodeset" ];
+  boot.kernelModules = [ "dme1737" ];
 
   #time.timeZone = "Europe/London";
+
+  networking.useDHCP = true;
 
   #services.xserver = {
   #  enable = true;
@@ -46,15 +51,6 @@
   #      Option "Ignore" "on"
   #    ''
   #  ];
-  #};
-
-  #services.autorandr.enable = false;
-
-  #powerManagement = {
-  #  enable = true;
-  #  # if BT is enabled on sleep/hibernate etc., the system wakes immediately:
-  #  powerDownCommands = "echo 'power off' | bluetoothctl";
-  #  resumeCommands = "echo 'power on' | bluetoothctl";
   #};
 
   #services.wakeonlan.interfaces = [ { interface = "eno1"; method = "magicpacket"; } ];
