@@ -5,9 +5,10 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [
-    ./desktop.nix
-    ./rocm.nix
+  imports = map (x: ../modules + x) [
+    /efi.nix
+    /desktop.nix
+    /rocm.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_5_4;
