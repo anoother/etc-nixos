@@ -2,6 +2,10 @@
 
 {
 
+  imports = [
+    ./x.nix
+  ];
+
   time.timeZone = "Europe/London";
 
   environment.systemPackages = with pkgs; [
@@ -40,39 +44,9 @@
   ];
 
   services.xserver = {
-    enable = true;
-    enableCtrlAltBackspace = true;
     windowManager.bspwm.enable = true;
     displayManager.sddm.enable = false;
-    #displayManager.defaultSession = "none+bspwm";
-    desktopManager = {
-      xfce = {
-        enable = true;
-        noDesktop = false;
-        enableXfwm = true;
-      };
-      gnome3 = {
-        enable = true;
-      };
-    };
-    libinput = {
-        enable = true;
-        accelProfile = "flat";
-    };
-    inputClassSections = [
-      ''
-	Identifier "Touchpad"
-	MatchIsTouchpad "on"
-	Option "AccelProfile" "adaptive"
-	Option "ClickMethod" "clickfinger"
-	Option "NaturalScrolling" "true"
-      ''
-      ''
-	Identifier "Sennheiser GSX 1000 Hotkeys"
-	MatchProduct "Sennheiser GSX 1000 Main Audio"
-	Option "Ignore" "on"
-      ''
-    ];
+    desktopManager.gnome3.enable = true;
   };
 
   hardware.bluetooth.enable = true;
