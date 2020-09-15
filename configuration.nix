@@ -29,7 +29,7 @@ in
   nixpkgs.overlays = let
     unstableTarball = fetchTarball "channel:nixos-unstable";
     localFork = /home/ahmad/projects/nixpkgs;
-    localGit = fetchGit { url = localFork; rev = "master"; };
+    localGit = fetchGit { url = localFork; ref = "master"; };
   in [
     (self: super: {
       unstable = import unstableTarball {
