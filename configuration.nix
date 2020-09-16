@@ -12,7 +12,7 @@ in
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./notsecret/users.nix
-      ( /etc/nixos/machines + "/${machine}.nix" )
+      ( ./machines + "/${machine}.nix" )
     ];
 
   networking.hostName = machine;
@@ -29,7 +29,7 @@ in
   nixpkgs.overlays = let
     unstableTarball = fetchTarball "channel:nixos-unstable";
     localFork = /home/ahmad/projects/nixpkgs;
-    localGit = fetchGit { url = localFork; rev = "master"; };
+    localGit = fetchGit { url = localFork; ref = "master"; };
   in [
     (self: super: {
       unstable = import unstableTarball {
