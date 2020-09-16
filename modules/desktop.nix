@@ -57,7 +57,6 @@
   hardware.pulseaudio = {
     enable = true;
     package = pkgs.pulseaudioFull;
-    #configFile = ''/etc/pulse/glitchfree-free.pa'';
     extraConfig = ''load-module module-udev-detect tsched=0'';
   };
   environment.etc."pulse/gsx1000.conf".source = ''/etc/nixos/files/gsx1000.conf'';

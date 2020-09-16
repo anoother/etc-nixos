@@ -12,7 +12,7 @@ in
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./notsecret/users.nix
-      ( /etc/nixos/machines + "/${machine}.nix" )
+      ( ./machines + "/${machine}.nix" )
     ];
 
   networking.hostName = machine;
