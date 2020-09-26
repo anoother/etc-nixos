@@ -8,12 +8,20 @@
     ../notsecret/wifi.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_5_7; # AT LEAST 5.6 required for root fs
+  boot.kernelPackages = pkgs.unstable.linuxPackages_zen; # AT LEAST .6 required for root fs
   fileSystems."/".options = [ "compress_algorithm=lz4" ];
-
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/disk/by-id/usb-TS-RDF5A_Transcend_000000000004-0:0"; # or "nodev" for efi only
+
+  boot.kernelParams = [ "nvidia-drm.modeset=1" ];
+  boot.loader.grub.gfxmodeBios = "1280x1024x24";
+  boot.loader.grub.gfxpayloadBios = "keep";
+  services.xserver.videoDrivers = [ "nvidia" ];
+  environment.variables = {
+    "__GL_YIELD" = "USLEEP";
+    "__GL_SYNC_TO_VBLANK" = "0";
+  };
 
   #time.timeZone = "Europe/London";
 
