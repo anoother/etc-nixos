@@ -40,7 +40,8 @@
     marktext
     unstable.notes-up
     notable
-    typora
+    #typora
+    kate
   ];
 
   services.xserver = {
