@@ -27,6 +27,17 @@
 
   networking.useDHCP = true;
 
+  environment.systemPackages = with pkgs; [
+    midori
+    unstable.blender
+    glxinfo
+    glmark2
+    firefox-bin
+    hwinfo
+    sg3_utils
+    lsscsi
+  ];
+
   #services.wakeonlan.interfaces = [ { interface = "eno1"; method = "magicpacket"; } ];
 
   # This value determines the NixOS release with which your system is to be
