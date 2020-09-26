@@ -42,6 +42,7 @@
     notable
     #typora
     kate
+    kitty
   ];
 
   services.xserver = {
