@@ -40,13 +40,16 @@
     marktext
     unstable.notes-up
     notable
-    typora
+    #typora
+    kate
+    kitty
   ];
 
   services.xserver = {
     windowManager.bspwm.enable = true;
     displayManager.sddm.enable = false;
     desktopManager.gnome3.enable = true;
+    xkbOptions = "caps:ctrl_modifier,caps:escape";
   };
 
   hardware.bluetooth.enable = true;
