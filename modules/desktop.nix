@@ -43,6 +43,9 @@
     #typora
     kate
     kitty
+    google-chrome
+    obs-studio
+    zoom-us
   ];
 
   services.xserver = {
@@ -77,6 +80,7 @@
   services.printing.drivers = [ 
     pkgs.gutenprint
     pkgs.gutenprintBin
+    pkgs.epson-escpr
     pkgs.brlaser
     pkgs.brgenml1lpr
     pkgs.brgenml1cupswrapper
@@ -94,22 +98,22 @@
   # Screen locking on sleep etc. (uses i3lock by default)
   programs.xss-lock.enable = false;
 
-  systemd.user.services = {
-    sxhkd = {
-      description = "Simple X Hotkey Daemon";
-      documentation = [ "man:sxhkd(1)" ];
-      wantedBy = [ "graphical.target" ];
-      path = [
-        pkgs.utillinux
-        pkgs.bspwm
-        pkgs.dmenu
-        pkgs.konsole
-      ];
-      serviceConfig = {
-        ExecStart = "${pkgs.sxhkd}/bin/sxhkd";
-        ExecReload = "${pkgs.utillinux}/bin/kill -SIGUSR1 $MAINPID";
-      };
-    };
-  };
+  #systemd.user.services = {
+  #  sxhkd = {
+  #    description = "Simple X Hotkey Daemon";
+  #    documentation = [ "man:sxhkd(1)" ];
+  #    wantedBy = [ "graphical.target" ];
+  #    path = [
+  #      pkgs.utillinux
+  #      pkgs.bspwm
+  #      pkgs.dmenu
+  #      pkgs.konsole
+  #    ];
+  #    serviceConfig = {
+  #      ExecStart = "${pkgs.sxhkd}/bin/sxhkd";
+  #      ExecReload = "${pkgs.utillinux}/bin/kill -SIGUSR1 $MAINPID";
+  #    };
+  #  };
+  #};
 
 }
