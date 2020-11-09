@@ -23,19 +23,20 @@
     xkbOptions = "altwin:swap_lalt_lwin";
   };
 
-  networking.bonds.bond0 = {
-    interfaces = [ "eno1" "eno2" "eno3" "eno4" ];
-    driverOptions = {
-      mode = "balance-rr";
-      ad_select = "bandwidth";
-    };
-  };
-  networking.interfaces.bond0.useDHCP = true;
-  networking.interfaces.bond0.mtu = 9000;
-  networking.networkmanager = {
-    enable = true;
-    unmanaged = [ "eno1" "eno2" "eno3" "eno4" ];
-  };
+  #networking.bonds.bond0 = {
+  #  interfaces = [ "eno1" "eno2" "eno3" "eno4" ];
+  #  driverOptions = {
+  #    mode = "balance-rr";
+  #    ad_select = "bandwidth";
+  #  };
+  #};
+  #networking.interfaces.bond0.useDHCP = true;
+  #networking.interfaces.bond0.mtu = 9000;
+  #networking.networkmanager = {
+  #  enable = true;
+  #  unmanaged = [ "eno1" "eno2" "eno3" "eno4" ];
+  #};
+  networking.networkmanager.enable = true;
 
   environment.systemPackages = with pkgs; [
     ipmitool
