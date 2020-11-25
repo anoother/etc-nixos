@@ -46,6 +46,7 @@
     google-chrome
     obs-studio
     zoom-us
+    solaar
   ];
 
   services.xserver = {
@@ -69,6 +70,7 @@
 
   services.udev.extraRules = ''
     ATTRS{manufacturer}=="Sennheiser", ATTRS{product}=="GSX 1000 Main Audio", ENV{PULSE_PROFILE_SET}="/etc/pulse/gsx1000.conf"
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0664", TAG+="uaccess"
   '';
 
   # For Steam:
