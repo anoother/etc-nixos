@@ -46,6 +46,7 @@
     google-chrome
     obs-studio
     zoom-us
+    freecad
   ];
 
   services.xserver = {
