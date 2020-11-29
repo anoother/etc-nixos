@@ -40,13 +40,14 @@
     marktext
     unstable.notes-up
     notable
-    #typora
+    typora
     kate
     kitty
     google-chrome
     obs-studio
     zoom-us
     freecad
+    solaar
   ];
 
   services.xserver = {
@@ -70,6 +71,7 @@
 
   services.udev.extraRules = ''
     ATTRS{manufacturer}=="Sennheiser", ATTRS{product}=="GSX 1000 Main Audio", ENV{PULSE_PROFILE_SET}="/etc/pulse/gsx1000.conf"
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0664", TAG+="uaccess"
   '';
 
   # For Steam:
@@ -99,22 +101,22 @@
   # Screen locking on sleep etc. (uses i3lock by default)
   programs.xss-lock.enable = false;
 
-  #systemd.user.services = {
-  #  sxhkd = {
-  #    description = "Simple X Hotkey Daemon";
-  #    documentation = [ "man:sxhkd(1)" ];
-  #    wantedBy = [ "graphical.target" ];
-  #    path = [
-  #      pkgs.utillinux
-  #      pkgs.bspwm
-  #      pkgs.dmenu
-  #      pkgs.konsole
-  #    ];
-  #    serviceConfig = {
-  #      ExecStart = "${pkgs.sxhkd}/bin/sxhkd";
-  #      ExecReload = "${pkgs.utillinux}/bin/kill -SIGUSR1 $MAINPID";
-  #    };
-  #  };
-  #};
+  systemd.user.services = {
+    sxhkd = {
+      description = "Simple X Hotkey Daemon";
+      documentation = [ "man:sxhkd(1)" ];
+      wantedBy = [ "graphical.target" ];
+      path = [
+        pkgs.utillinux
+        pkgs.bspwm
+        pkgs.dmenu
+        pkgs.konsole
+      ];
+      serviceConfig = {
+        ExecStart = "${pkgs.sxhkd}/bin/sxhkd";
+        ExecReload = "${pkgs.utillinux}/bin/kill -SIGUSR1 $MAINPID";
+      };
+    };
+  };
 
 }
