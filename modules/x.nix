@@ -4,6 +4,7 @@
   services.xserver = {
     enable = true;
     enableCtrlAltBackspace = true;
+    layout = "gb,us";
     desktopManager = {
       xfce = {
         enable = true;

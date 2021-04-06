@@ -9,14 +9,17 @@
   time.timeZone = "Europe/London";
 
   environment.systemPackages = with pkgs; [
+    _1password
     picom
     pnmixer
     numlockx
     feh
     scrot
-    steam
     polybar
     dmenu
+    xdo
+    xdotool
+    xtitle
     google-drive-ocamlfuse
     konsole
     firefox
@@ -38,7 +41,7 @@
     powertop
     ghostwriter
     marktext
-    unstable.notes-up
+    notes-up
     notable
     typora
     kate
@@ -46,7 +49,6 @@
     google-chrome
     obs-studio
     zoom-us
-    freecad
     solaar
   ];
 
@@ -75,8 +77,9 @@
   '';
 
   # For Steam:
-  hardware.pulseaudio.support32Bit = true;
-  hardware.opengl.driSupport32Bit = true;
+  #hardware.pulseaudio.support32Bit = true;
+  #hardware.opengl.driSupport32Bit = true;
+  programs.steam.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

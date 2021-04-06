@@ -9,19 +9,20 @@
     /efi.nix
     /desktop.nix
     /rocm.nix
+    /3dprinting.nix
+    /igvt-g.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_5_4;
+  boot.kernelPackages = pkgs.linuxPackages_5_11;
 
   console.font = lib.mkDefault "${pkgs.terminus_font}/share/consolefonts/ter-u12n.psf.gz";
   console.useXkbConfig = true;
 
-  services.xserver = {
-    layout = "us";
-    xkbModel = "pc105";
-    xkbVariant = "mac";
-    xkbOptions = "altwin:swap_lalt_lwin";
-  };
+  #services.xserver = {
+  #  xkbModel = "pc105";
+  #  xkbVariant = "mac";
+  #  #xkbOptions = "altwin:swap_lalt_lwin";
+  #};
 
   #networking.bonds.bond0 = {
   #  interfaces = [ "eno1" "eno2" "eno3" "eno4" ];
@@ -51,7 +52,6 @@
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "20.03"; # Did you read the comment?
+  system.stateVersion = "20.09"; # Did you read the comment?
 
 }
-

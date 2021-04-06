@@ -43,12 +43,13 @@ in
         overlays = [];
       };
     })
-    (self: super: {
-      hack = import localFork {
-        config = config.nixpkgs.config;
-        overlays = [];
-      };
-    })
+    #if isDir localFork then
+    #  (self: super: {
+    #    hack = import localFork {
+    #      config = config.nixpkgs.config;
+    #      overlays = [];
+    #    };
+    #  })
   ];
 
   environment.systemPackages = with pkgs; [
@@ -75,6 +76,7 @@ in
     unzip
     pciutils
     lsof
+    jq
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
