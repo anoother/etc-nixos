@@ -8,12 +8,14 @@
   imports = map (x: ../modules + x) [
     /efi.nix
     /desktop.nix
+    /amdgpu.nix
     /rocm.nix
     /3dprinting.nix
     /igvt-g.nix
+    /development.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_5_11;
+  #boot.kernelPackages = pkgs.linuxPackages_5_11;
 
   console.font = lib.mkDefault "${pkgs.terminus_font}/share/consolefonts/ter-u12n.psf.gz";
   console.useXkbConfig = true;
@@ -24,20 +26,25 @@
   #  #xkbOptions = "altwin:swap_lalt_lwin";
   #};
 
-  #networking.bonds.bond0 = {
-  #  interfaces = [ "eno1" "eno2" "eno3" "eno4" ];
-  #  driverOptions = {
-  #    mode = "balance-rr";
-  #    ad_select = "bandwidth";
-  #  };
-  #};
-  #networking.interfaces.bond0.useDHCP = true;
-  #networking.interfaces.bond0.mtu = 9000;
-  #networking.networkmanager = {
-  #  enable = true;
-  #  unmanaged = [ "eno1" "eno2" "eno3" "eno4" ];
-  #};
-  networking.networkmanager.enable = true;
+  networking.bonds.bond0 = {
+    interfaces = [ "eno1" "eno2" "eno3" "eno4" ];
+    driverOptions = {
+      mode = "balance-rr";
+      ad_select = "bandwidth";
+    };
+  };
+
+  networking.interfaces.bond0 = {
+    useDHCP = true;
+    macAddress = "0c:c4:7a:88:4c:98"; # Because something (networkd?) is making up a MAC and this breaks DHCP
+  };
+
+  networking.dhcpcd.extraConfig = "noipv4ll";
+
+  networking.networkmanager = {
+    enable = true;
+    unmanaged = [ "eno1" "eno2" "eno3" "eno4" ];
+  };
 
   environment.systemPackages = with pkgs; [
     ipmitool

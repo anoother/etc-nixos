@@ -8,22 +8,22 @@
     desktopManager = {
       xfce = {
         enable = true;
-        noDesktop = false;
-        enableXfwm = true;
+        noDesktop = true;
+        enableXfwm = false;
       };
     };
     libinput = {
         enable = true;
-        accelProfile = "flat";
+        mouse = {
+          accelProfile = "flat";
+        };
+        touchpad = {
+          accelProfile = "adaptive";
+          clickMethod = "clickfinger";
+          naturalScrolling = true;
+        };
     };
     inputClassSections = [
-      ''
-        Identifier "Touchpad"
-        MatchIsTouchpad "on"
-        Option "AccelProfile" "adaptive"
-        Option "ClickMethod" "clickfinger"
-        Option "NaturalScrolling" "true"
-      ''
       ''
         Identifier "Sennheiser GSX 1000 Hotkeys"
         MatchProduct "Sennheiser GSX 1000 Main Audio"

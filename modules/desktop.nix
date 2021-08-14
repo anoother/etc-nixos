@@ -4,6 +4,7 @@
 
   imports = [
     ./x.nix
+    ./printing.nix
   ];
 
   time.timeZone = "Europe/London";
@@ -34,9 +35,9 @@
     numix-sx-gtk-theme
     pa_applet
     libreoffice
-    gimp
+    gimp-with-plugins
     inkscape
-    unstable.blender
+    blender
     dolphin
     powertop
     ghostwriter
@@ -50,12 +51,13 @@
     obs-studio
     zoom-us
     solaar
+    ripcord
   ];
 
   services.xserver = {
     windowManager.bspwm.enable = true;
     displayManager.sddm.enable = false;
-    desktopManager.gnome3.enable = true;
+    desktopManager.gnome.enable = true;
     xkbOptions = "caps:ctrl_modifier,caps:escape";
   };
 
@@ -81,17 +83,6 @@
   #hardware.opengl.driSupport32Bit = true;
   programs.steam.enable = true;
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-  services.printing.drivers = [ 
-    pkgs.gutenprint
-    pkgs.gutenprintBin
-    pkgs.epson-escpr
-    pkgs.brlaser
-    pkgs.brgenml1lpr
-    pkgs.brgenml1cupswrapper
-  ];
-
   fonts.fonts = with pkgs; [ 
     b612
     font-awesome
@@ -104,22 +95,22 @@
   # Screen locking on sleep etc. (uses i3lock by default)
   programs.xss-lock.enable = false;
 
-  systemd.user.services = {
-    sxhkd = {
-      description = "Simple X Hotkey Daemon";
-      documentation = [ "man:sxhkd(1)" ];
-      wantedBy = [ "graphical.target" ];
-      path = [
-        pkgs.utillinux
-        pkgs.bspwm
-        pkgs.dmenu
-        pkgs.konsole
-      ];
-      serviceConfig = {
-        ExecStart = "${pkgs.sxhkd}/bin/sxhkd";
-        ExecReload = "${pkgs.utillinux}/bin/kill -SIGUSR1 $MAINPID";
-      };
-    };
-  };
+  #systemd.user.services = {
+  #  sxhkd = {
+  #    description = "Simple X Hotkey Daemon";
+  #    documentation = [ "man:sxhkd(1)" ];
+  #    wantedBy = [ "graphical.target" ];
+  #    path = with pkgs; [
+  #      utillinux
+  #      bspwm
+  #      dmenu
+  #      kitty
+  #    ];
+  #    serviceConfig = {
+  #      ExecStart = "${pkgs.sxhkd}/bin/sxhkd";
+  #      ExecReload = "${pkgs.utillinux}/bin/kill -SIGUSR1 $MAINPID";
+  #    };
+  #  };
+  #};
 
 }
