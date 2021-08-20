@@ -3,6 +3,7 @@
 {
 
   imports = [
+    ./pdf.nix
     ./x.nix
     ./printing.nix
   ];
@@ -112,21 +113,16 @@
       };
     };
 
-  #  sxhkd = {
-  #    description = "Simple X Hotkey Daemon";
-  #    documentation = [ "man:sxhkd(1)" ];
-  #    wantedBy = [ "graphical.target" ];
-  #    path = with pkgs; [
-  #      utillinux
-  #      bspwm
-  #      dmenu
-  #      kitty
-  #    ];
-  #    serviceConfig = {
-  #      ExecStart = "${pkgs.sxhkd}/bin/sxhkd";
-  #      ExecReload = "${pkgs.utillinux}/bin/kill -SIGUSR1 $MAINPID";
-  #    };
-  #  };
+    solaar = {
+      description = "Logitech mouse controls";
+      wantedBy = [ "graphical.target" ];
+      path = [
+        pkgs.solaar
+      ];
+      serviceConfig = {
+        ExecStart = "${pkgs.solaar}/bin/solaar -w hide";
+      };
+    };
 
   };
 
