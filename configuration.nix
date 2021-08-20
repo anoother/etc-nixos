@@ -60,6 +60,7 @@ in
     pciutils
     lsof
     jq
+    sshfs-fuse
   ];
 
   networking.firewall.enable = false;

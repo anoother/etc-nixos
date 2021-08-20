@@ -52,6 +52,8 @@
     zoom-us
     solaar
     ripcord
+    xscreensaver
+    rss-glx
   ];
 
   services.xserver = {
@@ -95,7 +97,21 @@
   # Screen locking on sleep etc. (uses i3lock by default)
   programs.xss-lock.enable = false;
 
-  #systemd.user.services = {
+  systemd.user.services = {
+
+    xscreensaver = {
+      description = "Screensaver";
+      documentation = [ "man:XSceenSaver(1)" ];
+      wantedBy = [ "graphical.target" ];
+      path = with pkgs; [
+        xscreensaver
+        rss-glx
+      ];
+      serviceConfig = {
+        ExecStart = "${pkgs.xscreensaver}/bin/xscreensaver --no-splash";
+      };
+    };
+
   #  sxhkd = {
   #    description = "Simple X Hotkey Daemon";
   #    documentation = [ "man:sxhkd(1)" ];
@@ -111,6 +127,7 @@
   #      ExecReload = "${pkgs.utillinux}/bin/kill -SIGUSR1 $MAINPID";
   #    };
   #  };
-  #};
+
+  };
 
 }
