@@ -107,8 +107,10 @@
       path = with pkgs; [
         xscreensaver
         rss-glx
+        perl
       ];
       serviceConfig = {
+        ExecStartPre = "${pkgs.rss-glx}/bin/rss-glx_install.pl";
         ExecStart = "${pkgs.xscreensaver}/bin/xscreensaver --no-splash";
       };
     };
