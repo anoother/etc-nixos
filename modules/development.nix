@@ -13,8 +13,9 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    gnumake
+  environment.systemPackages = [
+    pkgs.gnumake
+    pkgs.python38Packages.virtualenvwrapper
   ];
 
 }

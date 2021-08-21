@@ -4,6 +4,7 @@
   imports = map (x: ../modules + x) [
     /efi.nix
     /desktop.nix
+    /development.nix
     /igvt-g.nix
   ];
 
@@ -15,7 +16,7 @@
 
   virtualisation.kvmgt.vgpus = {
     "i915-GVTg_V5_1" = {
-      uuid = "9139a3de-dd84-11ea-95a1-bf4a694b0948";
+      uuid = [ "9139a3de-dd84-11ea-95a1-bf4a694b0948" ];
     };
   };
 
@@ -28,36 +29,14 @@
     desktopManager = {
       xfce = {
         enable = true;
-        noDesktop = false;
-        enableXfwm = true;
-      };
-      gnome3 = {
-        enable = true;
       };
     };
     monitorSection = ''#Option "DPMS" "false"
       Modeline "2560x1440_75" 299.00  2560 2608 2640 2720  1440 1443 1448 1470 +hsync -vsync
       Option "PreferredMode" "2560x1440_75"
     '';
-    libinput = {
-        enable = true;
-        accelProfile = "flat";
-    };
-    inputClassSections = [
-      ''
-	Identifier "Touchpad"
-	MatchIsTouchpad "on"
-	Option "AccelProfile" "adaptive"
-	Option "ClickMethod" "clickfinger"
-	Option "NaturalScrolling" "true"
-      ''
-      ''
-	Identifier "Sennheiser GSX 1000 Hotkeys"
-	MatchProduct "Sennheiser GSX 1000 Main Audio"
-	Option "Ignore" "on"
-      ''
-    ];
   };
+
   #environment.etc."../var/lib/lightdm/.config/monitors.xml".source = ''/home/ahmad/.config/monitors.xml'';
 
   # Intel graphics stuff
