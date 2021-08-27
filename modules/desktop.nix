@@ -40,6 +40,9 @@
     inkscape
     blender
     dolphin
+    libsForQt5.kio # For Dolphin MTP support
+    libsForQt5.kio-extras # For Dolphin MTP support
+    android-udev-rules
     powertop
     ghostwriter
     marktext

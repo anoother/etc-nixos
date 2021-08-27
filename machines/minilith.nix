@@ -17,6 +17,8 @@
 
   #boot.kernelPackages = pkgs.linuxPackages_5_11;
 
+  boot.tmpOnTmpfs = true;
+
   console.font = lib.mkDefault "${pkgs.terminus_font}/share/consolefonts/ter-u12n.psf.gz";
   console.useXkbConfig = true;
 
@@ -49,6 +51,12 @@
   environment.systemPackages = with pkgs; [
     ipmitool
   ];
+
+  virtualisation.kvmgt.vgpus = {
+    "i915-GVTg_V5_1" = {
+      uuid = [ "2a692636-05cc-11ec-8405-7fb5d764f760" ];
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
