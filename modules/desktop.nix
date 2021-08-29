@@ -104,9 +104,11 @@
   systemd.user.services = {
 
     xscreensaver = {
+      enable = true;
       description = "Screensaver";
       documentation = [ "man:XSceenSaver(1)" ];
-      wantedBy = [ "graphical.target" ];
+      wantedBy = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
       path = with pkgs; [
         xscreensaver
         rss-glx
@@ -119,10 +121,13 @@
     };
 
     solaar = {
+      enable = true;
       description = "Logitech mouse controls";
-      wantedBy = [ "graphical.target" ];
-      path = [
-        pkgs.solaar
+      wantedBy = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
+      path = with pkgs; [
+        solaar
+        numix-icon-theme
       ];
       serviceConfig = {
         ExecStart = "${pkgs.solaar}/bin/solaar -w hide";
