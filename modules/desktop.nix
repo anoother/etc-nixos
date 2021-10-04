@@ -3,20 +3,25 @@
 {
 
   imports = [
+    ./pdf.nix
     ./x.nix
+    ./printing.nix
   ];
 
   time.timeZone = "Europe/London";
 
   environment.systemPackages = with pkgs; [
+    _1password
     picom
     pnmixer
     numlockx
     feh
     scrot
-    steam
     polybar
     dmenu
+    xdo
+    xdotool
+    xtitle
     google-drive-ocamlfuse
     konsole
     firefox
@@ -31,27 +36,34 @@
     numix-sx-gtk-theme
     pa_applet
     libreoffice
-    gimp
+    gimp-with-plugins
     inkscape
-    unstable.blender
+    blender
     dolphin
+    libsForQt5.kio # For Dolphin MTP support
+    libsForQt5.kio-extras # For Dolphin MTP support
+    android-udev-rules
     powertop
     ghostwriter
     marktext
-    unstable.notes-up
+    notes-up
     notable
-    #typora
+    typora
     kate
     kitty
     google-chrome
     obs-studio
     zoom-us
+    solaar
+    ripcord
+    xscreensaver
+    rss-glx
   ];
 
   services.xserver = {
     windowManager.bspwm.enable = true;
     displayManager.sddm.enable = false;
-    desktopManager.gnome3.enable = true;
+    desktopManager.gnome.enable = true;
     xkbOptions = "caps:ctrl_modifier,caps:escape";
   };
 
@@ -69,22 +81,13 @@
 
   services.udev.extraRules = ''
     ATTRS{manufacturer}=="Sennheiser", ATTRS{product}=="GSX 1000 Main Audio", ENV{PULSE_PROFILE_SET}="/etc/pulse/gsx1000.conf"
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0664", TAG+="uaccess"
   '';
 
   # For Steam:
-  hardware.pulseaudio.support32Bit = true;
-  hardware.opengl.driSupport32Bit = true;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-  services.printing.drivers = [ 
-    pkgs.gutenprint
-    pkgs.gutenprintBin
-    pkgs.epson-escpr
-    pkgs.brlaser
-    pkgs.brgenml1lpr
-    pkgs.brgenml1cupswrapper
-  ];
+  #hardware.pulseaudio.support32Bit = true;
+  #hardware.opengl.driSupport32Bit = true;
+  programs.steam.enable = true;
 
   fonts.fonts = with pkgs; [ 
     b612
@@ -98,22 +101,39 @@
   # Screen locking on sleep etc. (uses i3lock by default)
   programs.xss-lock.enable = false;
 
-  #systemd.user.services = {
-  #  sxhkd = {
-  #    description = "Simple X Hotkey Daemon";
-  #    documentation = [ "man:sxhkd(1)" ];
-  #    wantedBy = [ "graphical.target" ];
-  #    path = [
-  #      pkgs.utillinux
-  #      pkgs.bspwm
-  #      pkgs.dmenu
-  #      pkgs.konsole
-  #    ];
-  #    serviceConfig = {
-  #      ExecStart = "${pkgs.sxhkd}/bin/sxhkd";
-  #      ExecReload = "${pkgs.utillinux}/bin/kill -SIGUSR1 $MAINPID";
-  #    };
-  #  };
-  #};
+  systemd.user.services = {
+
+    xscreensaver = {
+      enable = true;
+      description = "Screensaver";
+      documentation = [ "man:XSceenSaver(1)" ];
+      wantedBy = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
+      path = with pkgs; [
+        xscreensaver
+        rss-glx
+        perl
+      ];
+      serviceConfig = {
+        ExecStartPre = "${pkgs.rss-glx}/bin/rss-glx_install.pl";
+        ExecStart = "${pkgs.xscreensaver}/bin/xscreensaver --no-splash";
+      };
+    };
+
+    solaar = {
+      enable = true;
+      description = "Logitech mouse controls";
+      wantedBy = [ "graphical-session.target" ];
+      partOf = [ "graphical-session.target" ];
+      path = with pkgs; [
+        solaar
+        numix-icon-theme
+      ];
+      serviceConfig = {
+        ExecStart = "${pkgs.solaar}/bin/solaar -w hide";
+      };
+    };
+
+  };
 
 }

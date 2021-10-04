@@ -2,34 +2,30 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, options, ... }:
+{ config, pkgs, options, lib, ... }:
 
-let
-  machine = builtins.readFile( ./hostname );
+let nixos_hostname = builtins.getEnv "NIXOS_HOSTNAME"; in
+let 
+  hostname = if (nixos_hostname == "") then builtins.readFile( ./hostname ) else nixos_hostname;
+  inherit nixos_hostname;
 in
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
       ./notsecret/users.nix
-      ( ./machines + "/${machine}.nix" )
+      ( ./machines + "/${hostname}.nix" )
     ];
 
-  networking.hostName = machine;
+  networking.hostName = hostname;
+  networking.useDHCP = lib.mkOverride 2000 false; # Default priority is 1000, lowest takes precedence
 
   nixpkgs.config = {
     allowUnfree = true;
   };
 
-  nix.nixPath =
-    options.nix.nixPath.default ++
-    [ "nixpkgs-overlays=/etc/nixos/overlays-compat/" ]
-  ;
-
   nixpkgs.overlays = let
     unstableTarball = fetchTarball "channel:nixos-unstable";
-    localFork = /home/ahmad/projects/nixpkgs;
-    localGit = fetchGit { url = localFork; ref = "master"; };
   in [
     (self: super: {
       unstable = import unstableTarball {
@@ -37,24 +33,19 @@ in
         overlays = [];
       };
     })
-    (self: super: {
-      local = import localGit {
-        config = config.nixpkgs.config;
-        overlays = [];
-      };
-    })
-    (self: super: {
-      hack = import localFork {
-        config = config.nixpkgs.config;
-        overlays = [];
-      };
-    })
   ];
 
+  nix.nixPath =
+    # Prepend default nixPath values.
+    options.nix.nixPath.default ++ 
+    # Append our nixpkgs-overlays.
+    [ "nixpkgs-overlays=/etc/nixos/overlays-compat/" ]
+  ;
+
   environment.systemPackages = with pkgs; [
-    #unstable.home-assistant
     file
     git
+    gitAndTools.tig
     wget
     vim
     lm_sensors
@@ -75,14 +66,11 @@ in
     unzip
     pciutils
     lsof
+    jq
+    sshfs-fuse
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-
-  networking.firewall.enable = false;
+  networking.firewall.enable = lib.mkDefault false;
 
   services.openssh.enable = true;
   services.openssh.permitRootLogin = "no";
@@ -90,11 +78,6 @@ in
   programs.mosh.enable = true;
 
   i18n.defaultLocale = "en_GB.UTF-8";
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
 
 }
 

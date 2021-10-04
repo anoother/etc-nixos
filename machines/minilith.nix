@@ -8,20 +8,25 @@
   imports = map (x: ../modules + x) [
     /efi.nix
     /desktop.nix
+    /amdgpu.nix
     /rocm.nix
+    /3dprinting.nix
+    /igvt-g.nix
+    /development.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_5_4;
+  #boot.kernelPackages = pkgs.linuxPackages_5_11;
+
+  boot.tmpOnTmpfs = true;
 
   console.font = lib.mkDefault "${pkgs.terminus_font}/share/consolefonts/ter-u12n.psf.gz";
   console.useXkbConfig = true;
 
-  services.xserver = {
-    layout = "us";
-    xkbModel = "pc105";
-    xkbVariant = "mac";
-    xkbOptions = "altwin:swap_lalt_lwin";
-  };
+  #services.xserver = {
+  #  xkbModel = "pc105";
+  #  xkbVariant = "mac";
+  #  #xkbOptions = "altwin:swap_lalt_lwin";
+  #};
 
   networking.bonds.bond0 = {
     interfaces = [ "eno1" "eno2" "eno3" "eno4" ];
@@ -30,8 +35,14 @@
       ad_select = "bandwidth";
     };
   };
-  networking.interfaces.bond0.useDHCP = true;
-  networking.interfaces.bond0.mtu = 9000;
+
+  networking.interfaces.bond0 = {
+    useDHCP = true;
+    macAddress = "0c:c4:7a:88:4c:98"; # Because something (networkd?) is making up a MAC and this breaks DHCP
+  };
+
+  networking.dhcpcd.extraConfig = "noipv4ll";
+
   networking.networkmanager = {
     enable = true;
     unmanaged = [ "eno1" "eno2" "eno3" "eno4" ];
@@ -40,6 +51,12 @@
   environment.systemPackages = with pkgs; [
     ipmitool
   ];
+
+  virtualisation.kvmgt.vgpus = {
+    "i915-GVTg_V5_1" = {
+      uuid = [ "2a692636-05cc-11ec-8405-7fb5d764f760" ];
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -50,7 +67,6 @@
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "20.03"; # Did you read the comment?
+  system.stateVersion = "20.09"; # Did you read the comment?
 
 }
-
